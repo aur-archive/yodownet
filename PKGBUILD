@@ -1,0 +1,26 @@
+# Maintainer: Alireza Savand <alireza.savand@gmail.com>
+
+pkgname=yodownet
+pkgver=2014.03.09
+pkgrel=1
+pkgdesc="yoDownet, The Previous Generation Graphical Download Manager, Implemented on Qt"
+arch=(any)
+url="http://sourceforge.net/projects/yodownet"
+license=("GPL3")
+makedepends=('qt5-base' 'qt5-translations' 'qt5-tools' 'make')
+depends=('qt5-base')
+provides=("yodownet")
+source=("http://sourceforge.net/projects/$pkgname/files/sources/$pkgname-$pkgver.tar.gz")
+md5sums=('80189b803795c644d5d9245c4d0ba4c0')
+
+build() {
+	cd "$srcdir"
+	lrelease yoDownet.pro || return 1
+	qmake -config release || return 1
+	make || return 1
+}
+
+package() {
+	cd "$srcdir"
+	make install INSTALL_ROOT=$pkgdir || return 1
+}
